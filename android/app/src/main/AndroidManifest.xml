@@ -30,5 +30,7 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
+            <key>io.flutter.embedded_views_preview</key>
+            <string>YES</string>
     </application>
 </manifest>

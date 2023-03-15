@@ -1,17 +1,20 @@
+import 'package:appcarpa/home_page_mobile.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+// ignore: depend_on_referenced_packages
 import 'package:video_player/video_player.dart';
-import 'package:flutter_web_browser/flutter_web_browser.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'dart:convert';
 
-class Home extends StatefulWidget {
-  const Home({Key? key}) : super(key: key);
+class FirstPage extends StatefulWidget {
+  const FirstPage({Key? key}) : super(key: key);
 
   @override
   // ignore: library_private_types_in_public_api
-  _Home createState() => _Home();
+  _FirstPage createState() => _FirstPage();
 }
 
-class _Home extends State<Home> {
+class _FirstPage extends State<FirstPage> {
   late VideoPlayerController _videoPlayerController;
 
   @override
@@ -58,7 +61,7 @@ class _Home extends State<Home> {
                 Column(
                   children: [
                     Image.asset(
-                      'assets/images/logo_carpa.png',
+                      'assets/images/logo_horizontal_carpa.png',
                       height: 270.0,
                       width: 270.0,
                     ),
@@ -98,8 +101,14 @@ class _Home extends State<Home> {
                       borderRadius: BorderRadius.circular(4),
                     ),
                     child: TextButton(
-                      onPressed: () {
-                        openBrowserCarpaMobile();
+                      onPressed: () async {
+                        // ignore: use_build_context_synchronously
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              // ignore: prefer_const_constructors
+                              builder: (context) => initUrl()),
+                        );
                       },
                       style: TextButton.styleFrom(
                         foregroundColor: Colors.white,
@@ -118,53 +127,30 @@ class _Home extends State<Home> {
               ],
             ),
           ),
-          Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.end,
-              // ignore: prefer_const_literals_to_create_immutables
-              children: [
-                Padding(
-                  padding: EdgeInsets.only(bottom: 180),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                        color: Colors.white,
-                        width: 2,
-                      ),
-                      borderRadius: BorderRadius.circular(4),
-                    ),
-                    child: TextButton(
-                      onPressed: () {
-                        openBrowserCarpaDesktop();
-                      },
-                      style: TextButton.styleFrom(
-                        foregroundColor: Colors.white,
-                        padding: const EdgeInsets.only(
-                            left: 140, right: 140, top: 5, bottom: 5),
-                      ),
-                      child: const Text(
-                        'Carpa Desktop',
-                        style: TextStyle(
-                          fontSize: 20,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
         ],
       ),
     );
   }
 }
 
-openBrowserCarpaMobile() async {
-  await FlutterWebBrowser.openWebPage(
-      url: "http://carpamobile.smartadvisor.com.br:5030/login");
+initUrl() {
+  var urlMobile = carpaMobile();
+  return urlMobile;
 }
 
-openBrowserCarpaDesktop() async {
-  await FlutterWebBrowser.openWebPage(url: "https://carpa.smartbrain.com.br/");
+carpaMobile() async {
+  try {
+    var url = "https://carpa-api-manager.azure-api.net/getsmarturls/";
+
+    var headers = {
+      'Ocp-Apim-Subscription-Key': '6e92dcd7a60b484998ac836db42f150a',
+    };
+    var response = await http.get(Uri.parse(url), headers: headers);
+    var responseDecode = await jsonDecode(utf8.decode(response.bodyBytes));
+    var mobileAppUrls = responseDecode["mobileAppUrls"];
+    var smartMobileUrl = mobileAppUrls["smartMobileUrl"];
+    return smartMobileUrl;
+  } catch (e) {
+    print(e);
+  }
 }

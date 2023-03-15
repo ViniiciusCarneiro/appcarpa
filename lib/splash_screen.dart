@@ -1,5 +1,6 @@
 import 'dart:async';
-import 'package:appcarpa/home_page.dart';
+import 'package:appcarpa/first_page.dart';
+import 'package:appcarpa/home_page_mobile.dart';
 import 'package:flutter/material.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -15,8 +16,8 @@ class _SplashScreenState extends State<SplashScreen> {
     super.initState();
     Timer(
         const Duration(seconds: 3),
-        () => Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (context) => const Home())));
+        () => Navigator.pushReplacement(context,
+            MaterialPageRoute(builder: (context) => const FirstPage())));
   }
 
   @override
