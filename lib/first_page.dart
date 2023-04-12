@@ -1,4 +1,4 @@
-import 'package:appcarpa/home_page_mobile.dart';
+import 'package:appcarpa/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 // ignore: depend_on_referenced_packages
@@ -67,7 +67,7 @@ class _FirstPage extends State<FirstPage> {
                     ),
                   ],
                 ),
-                Column(
+                const Column(
                   // ignore: prefer_const_literals_to_create_immutables
                   children: [
                     Padding(padding: EdgeInsets.only(top: 20)),
@@ -75,7 +75,7 @@ class _FirstPage extends State<FirstPage> {
                     Text(
                       'Nós Contruimos valor enquanto você constrói sua história.',
                       textAlign: TextAlign.center,
-                      style: const TextStyle(
+                      style: TextStyle(
                         color: Colors.white,
                         fontSize: 25.0,
                       ),

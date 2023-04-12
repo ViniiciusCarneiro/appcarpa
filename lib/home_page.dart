@@ -1,16 +1,26 @@
-import 'package:appcarpa/home_page_desktop.dart';
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
-class HomePageMobile extends StatefulWidget {
-  const HomePageMobile({super.key});
+class HomePage extends StatefulWidget {
+  const HomePage({Key? key, required this.url}) : super(key: key);
+
+  final String url;
 
   @override
-  State<HomePageMobile> createState() => _HomePageMobileState();
+  State<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageMobileState extends State<HomePageMobile> {
+class _HomePageState extends State<HomePage> {
+  late WebViewController _webViewController = WebViewController();
+
   @override
+  void initState() {
+    super.initState();
+    _webViewController = WebViewController()
+      ..setJavaScriptMode(JavaScriptMode.unrestricted)
+      ..loadRequest(Uri.parse(widget.url));
+  }
+
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -31,35 +41,29 @@ class _HomePageMobileState extends State<HomePageMobile> {
             ListTile(
               title: Text("Mobile"),
               onTap: () {
-                Navigator.push(
+                Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
-                      // ignore: prefer_const_constructors
-                      builder: (context) => HomePageMobile()),
+                      builder: (context) =>
+                          HomePage(url: 'http://carpamobile.smartadvisor.com.br:5030/')),
                 );
-                // Acción al seleccionar opción 1
               },
             ),
             ListTile(
               title: Text("Desktop"),
               onTap: () {
-                Navigator.push(
+                Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
-                      // ignore: prefer_const_constructors
-                      builder: (context) => HomePageDesktop()),
+                      builder: (context) =>
+                          HomePage(url: 'https://carpa.smartbrain.com.br/')),
                 );
-                // Acción al seleccionar opción 2
               },
             ),
           ],
         ),
       ),
-      // ignore: prefer_const_constructors
-      body: WebView(
-        javascriptMode: JavascriptMode.unrestricted,
-        initialUrl: 'http://carpamobile.smartadvisor.com.br:5030/',
-      ),
+      body: WebViewWidget(controller: _webViewController),
     );
   }
 }
