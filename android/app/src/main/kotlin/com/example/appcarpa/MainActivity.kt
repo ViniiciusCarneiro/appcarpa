@@ -1,4 +1,4 @@
-package com.example.appcarpa
+package com.carpafamily.appcarpa
 
 import io.flutter.embedding.android.FlutterActivity
 

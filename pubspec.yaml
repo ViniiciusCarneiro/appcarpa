@@ -38,6 +38,7 @@ dependencies:
   http: ^0.13.5
   url_launcher: ^6.1.7
   webview_flutter: ^4.0.7
+  font_awesome_flutter: ^10.7.0
 
 dev_dependencies:
   flutter_test:
